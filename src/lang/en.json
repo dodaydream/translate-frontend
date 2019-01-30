@@ -1,0 +1,33 @@
+{
+  "lang": {
+    "auto": "Auto detect",
+    "zh": "Chinese Simplified",
+    "en": "English",
+    "yue": "Cantonese",
+    "wyw": "Chinese Classical",
+    "jp": "Japanese",
+    "kor": "Korean",
+    "fra": "French",
+    "spa": "Spanish",
+    "th": "Thai",
+    "ara": "Arabic",
+    "ru": "Russian",
+    "pt": "Portuguese",
+    "de": "German",
+    "it": "Italian",
+    "el": "Greek",
+    "nl": "Dutch",
+    "pl": "Poland",
+    "bul": "Bulgarian",
+    "est": "Estonian",
+    "dan": "Danish",
+    "fin": "Finnish",
+    "cs": "Czech",
+    "rom": "Romanian",
+    "slo": "Slovak",
+    "swe": "Swedish",
+    "hu": "Hungarian",
+    "cht": "Chinese Traditional",
+    "vie": "Vietnamese"
+  }
+}

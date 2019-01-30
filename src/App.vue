@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-main>
+      <TranslatorMain />
+      <TranslateHistory />
+    </el-main>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TranslatorMain from './components/TranslatorMain.vue'
+import TranslateHistory from './components/TranslateHistory'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
+    TranslatorMain,
+    TranslateHistory
   }
 }
 </script>
@@ -21,8 +25,22 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+@media screen and (min-width: 1280px) {
+  .el-main {
+    width: 1280px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .el-main {
+    padding: 0;
+  }
+
+  body {
+    margin: 0;
+  }
 }
 </style>
