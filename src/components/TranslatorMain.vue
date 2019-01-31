@@ -32,9 +32,20 @@
           v-model="input">
         </el-input>
         <el-button
+          v-if="input"
+          type="primary"
           @click="getTranslation(true)"
           class="translate-button"
           icon="el-icon-arrow-right"
+          size="small"
+          circle>
+        </el-button>
+        <el-button
+          v-if="input"
+          type="info"
+          @click="input = ''"
+          class="clear-button"
+          icon="el-icon-close"
           size="small"
           circle>
         </el-button>
@@ -133,6 +144,7 @@ export default {
 .el-textarea__inner {
   border: 0;
   resize: none;
+  padding-right: 48px;
 }
 
 .lang-group > .el-dropdown .el-button, .lang-group > .el-button {
@@ -153,7 +165,7 @@ export default {
 
 .limiter {
   float: right;
-  padding-right: 16px;
+  padding-right: 8px;
   font-size: 0.8em;
   color: #909399;
   padding-bottom: 8px;
@@ -161,8 +173,14 @@ export default {
 
 .translate-button {
   position: absolute;
-  top: 8px;
-  right: 32px;
+  top: 16px;
+  right: 8px;
+}
+
+.clear-button {
+  position: absolute;
+  top: 64px;
+  right: 8px;
 }
 
 textarea {
