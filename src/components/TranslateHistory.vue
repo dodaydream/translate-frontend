@@ -3,7 +3,7 @@
     <div v-if="history.length !== 0">
       <div class="history-toolbar">
         <div class="count">{{ $tc('translation', history.length) }}</div>
-        <el-button type="text" class="clear" @click="clearAll">Clear All</el-button>
+        <el-button type="text" class="clear" @click="clearAll">{{ $t('clear-all') }}</el-button>
       </div>
       <transition-group name="history">
         <TranslateHistoryCard

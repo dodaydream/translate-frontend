@@ -31,6 +31,11 @@
     "vie": "Vietnamese"
   },
   "detected": "detected",
+  "please-input": "Please input...",
+  "translation-result": "Translation",
   "translation": "1 translation | {count} translations",
-  "history-empty-state": "No history available"
+  "clear-all": "Clear All",
+  "history-empty-state": "No history available",
+  "made-by-stanley-cao": "Made by Stanley Cao and",
+  "liver": "his liver"
 }

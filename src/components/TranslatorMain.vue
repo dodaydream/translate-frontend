@@ -26,7 +26,7 @@
           type="textarea"
           class="translate-input"
           :autosize="{ minRows: 4 }"
-          placeholder="Please input"
+          :placeholder="$t('please-input')"
           @input.native="doTranslate"
           maxlength="5000"
           v-model="input">
@@ -46,7 +46,7 @@
           class="translate-result"
           type="textarea"
           :autosize="{ minRows: 4 }"
-          placeholder="Translation"
+          :placeholder="$t('translation-result')"
           v-model="result">
         </el-input>
       </el-col>

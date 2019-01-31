@@ -21,9 +21,17 @@ const messages = {
 
 // Create VueI18n instance with options
 const i18n = new VueI18n({
-  locale: 'en', // set locale
+  locale: getLanguage(), // set locale
   messages // set locale messages
 })
+
+function getLanguage() {
+  let lang = window.localStorage.getItem('language')
+  if (lang === 'en' || lang === 'zh') {
+    return lang
+  }
+  return 'en'
+}
 
 /* eslint-disable no-new */
 new Vue({
