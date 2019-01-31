@@ -1,14 +1,16 @@
 <template>
   <div class="language-selector">
-  <el-button-group class="lang-group">
-    <el-button
-      v-for="lang in recentUsedLang"
-      v-bind:key="lang"
-      @click="setLanguage(lang)"
-      :class="{ 'selected-language' : value === lang }">
-      {{ $t("lang." + lang) }}
-    </el-button>
-  </el-button-group>
+    <div class="lang-wrapper">
+      <el-button-group class="lang-group">
+        <el-button
+          v-for="lang in recentUsedLang"
+          v-bind:key="lang"
+          @click="setLanguage(lang)"
+          :class="{ 'selected-language' : value === lang }">
+          {{ $t("lang." + lang) }}
+        </el-button>
+      </el-button-group>
+    </div>
     <el-dropdown
       trigger="click"
       class="language-more"
@@ -39,14 +41,15 @@ export default {
   },
   data () {
     return {
-      languageList: languageData,
+      languageList: [],
       recentUsedLang: ['zh', 'en', 'jp']
     }
   },
   created () {
+    this.languageList = languageData
     if (this.displayauto) {
-      this.recentUsedLang.unshift('auto')
       this.languageList.unshift('auto')
+      this.recentUsedLang.unshift('auto')
     }
   },
   methods: {
@@ -70,6 +73,24 @@ export default {
 .selected-language {
   border-bottom: 2px solid #409eff !important;
   border-bottom-style: inset !important;
+}
+
+.lang-wrapper {
+  overflow: auto;
+}
+
+.lang-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.lang-group {
+  display: flex;
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
 }
 
 @media screen and (max-width: 640px) {

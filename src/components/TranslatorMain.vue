@@ -1,13 +1,13 @@
 <template>
   <el-card class="translate-main">
     <el-row class="language-selection">
-      <el-col :xs="12" :md="12">
+      <el-col :span="12">
         <LanguageSelector
           v-model="from"
           @input="doTranslate"
           displayauto />
       </el-col>
-      <el-col :xs="12" :md="12">
+      <el-col :span="12">
         <LanguageSelector
           class="dest-language-selector"
           v-model="to"
