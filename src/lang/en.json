@@ -29,5 +29,8 @@
     "hu": "Hungarian",
     "cht": "Chinese Traditional",
     "vie": "Vietnamese"
-  }
+  },
+  "detected": "detected",
+  "translation": "1 translation | {count} translations",
+  "history-empty-state": "No history available"
 }

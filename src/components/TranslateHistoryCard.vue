@@ -1,12 +1,11 @@
 <template>
   <el-card class="box-card">
-    <div slot="header" class="clearfix">
-      <span>
-      {{ $t("lang." + content.from) }} → {{ $t("lang." + content.to) }}</span>
-    </div>
     <div>
-      <p>{{ content.trans_result.reduce((str, cur) => str + cur.src + '\n', '') }}</p>
-      <p>{{ content.trans_result.reduce((str, cur) => str + cur.dst + '\n', '') }}</p>
+      <p class="lang-indicator">
+        {{ $t("lang." + content.from) }} → {{ $t("lang." + content.to) }}
+      </p>
+      <p class="lang-src">{{ content.trans_result.reduce((str, cur) => str + cur.src + '\n', '') }}</p>
+      <p class="lang-dst">{{ content.trans_result.reduce((str, cur) => str + cur.dst + '\n', '') }}</p>
       <el-button
         class="card-button"
         type="danger"
@@ -35,10 +34,19 @@ export default {
 
 .box-card p {
   margin: 0;
-  margin-bottom: 5px;
 }
 
 .box-card {
   margin-bottom: 16px;
+}
+
+.box-card .lang-indicator {
+  color: #909399;
+  padding-bottom: 10px;
+}
+
+.box-card .lang-dst {
+  color: #606266;
+  padding-top: 10px;
 }
 </style>

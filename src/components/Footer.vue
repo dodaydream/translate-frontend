@@ -1,5 +1,5 @@
 <template>
-  <el-footer>
+  <el-footer height="100px">
     <p class="footer-text">Made by Stanley Cao by <b>liver</b></p>
     <p class="footer-text">
       <a href="https://github.com/dodaydream/translate-frontend">

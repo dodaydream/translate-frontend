@@ -30,6 +30,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body, html, #app {
+  height: 100%;
+}
+
+.el-main {
+  min-height: 100%;
+}
+
 @media screen and (min-width: 1280px) {
   .el-main {
     width: 1280px;

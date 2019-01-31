@@ -4,14 +4,15 @@
       <el-col :span="12">
         <LanguageSelector
           v-model="from"
-          @input="doTranslate"
+          @input="getTranslation"
+          :detectedLang="detected"
           displayauto />
       </el-col>
       <el-col :span="12">
         <LanguageSelector
           class="dest-language-selector"
           v-model="to"
-          @input="doTranslate"
+          @input="getTranslation"
          />
       </el-col>
     </el-row>
@@ -28,7 +29,7 @@
           v-model="input">
         </el-input>
         <el-button
-          @click="getTranslation"
+          @click="getTranslation(true)"
           class="translate-button"
           icon="el-icon-arrow-right"
           size="small"
@@ -42,7 +43,7 @@
           class="translate-result"
           type="textarea"
           :autosize="{ minRows: 4 }"
-          placeholder="Translate"
+          placeholder="Translation"
           v-model="result">
         </el-input>
       </el-col>
@@ -62,7 +63,8 @@ export default {
       input: '',
       result: '',
       from: 'auto',
-      to: 'zh'
+      to: 'zh',
+      detected: ''
     }
   },
   methods: {
@@ -76,6 +78,8 @@ export default {
       } else {
         this.result += '...'
       }
+
+      this.detected = ''
     },
     doTranslate: _.debounce(function () {
       this.setPendingText()
@@ -83,13 +87,13 @@ export default {
         this.sendWebRequest()
       }
     }, 500),
-    getTranslation () {
+    getTranslation (isSavable=false) {
       this.setPendingText()
       if (this.input !== '') {
-        this.sendWebRequest(true)
+        this.sendWebRequest(isSavable)
       }
     },
-    sendWebRequest (isSavable=false) {
+    sendWebRequest (isSavable) {
       fetch(process.env.VUE_APP_API_URL, {
         method: 'POST',
         headers: {
@@ -104,32 +108,13 @@ export default {
         .then(res => res.json())
         .then((res) => {
           this.result = res.trans_result.reduce((str, cur) => str + cur.dst + '\n', '')
+          if (this.from === 'auto') {
+            this.detected = res.from
+          }
           if (isSavable) {
-            this.saveToHistory(res)
+            this.$parent.$parent.$refs.history.saveToHistory(res)
           }
         })
-    },
-    saveToHistory (res) {
-      console.log(res)
-      var history = []
-      if (!localStorage.history) {
-        history = [res]
-      } else {
-        try {
-          let result = JSON.parse(localStorage.history)
-          if (result.length >= 10) {
-            result.pop()
-          }
-          result.unshift(res)
-          history = result
-        } catch (err) {
-          console.log(err)
-          history = [res]
-        }
-      }
-      localStorage.history = JSON.stringify(history)
-      // only use this for simplexity
-      this.$parent.$parent.$refs.history.loadLocalStorage()
     }
   }
 }
@@ -164,8 +149,9 @@ a {
 
 .translate-main {
   border: 1px solid #dcdfe6;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
+  z-index: 1000;
 }
 
 .translate-main .el-card__body {
@@ -184,6 +170,10 @@ a {
   position: absolute;
   top: 8px;
   right: 32px;
+}
+
+textarea {
+  font-size: 1.5em !important;
 }
 
 @media screen and (max-width: 640px) {

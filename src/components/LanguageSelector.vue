@@ -7,7 +7,8 @@
           v-bind:key="lang"
           @click="setLanguage(lang)"
           :class="{ 'selected-language' : value === lang }">
-          {{ $t("lang." + lang) }}
+          {{ lang === 'auto' && detectedLang !== '' ?
+            $t("lang." + detectedLang) + ' - ' + $t("detected") : $t("lang." + lang) }}
         </el-button>
       </el-button-group>
     </div>
@@ -37,16 +38,17 @@ export default {
   name: 'LanguageSelector',
   props: {
     displayauto: Boolean,
-    value: String
+    value: String,
+    detectedLang: String
   },
   data () {
     return {
       languageList: [],
-      recentUsedLang: ['zh', 'en', 'jp']
+      recentUsedLang: ['zh', 'en', 'jp'],
     }
   },
   created () {
-    this.languageList = languageData
+    this.languageList = this.languageList.concat(languageData)
     if (this.displayauto) {
       this.languageList.unshift('auto')
       this.recentUsedLang.unshift('auto')
@@ -67,7 +69,11 @@ export default {
 
 <style>
 .el-dropdown-menu {
-  max-width: 500px;
+  max-width: 480px;
+}
+
+.el-dropdown-menu li {
+  width: 120px;
 }
 
 .selected-language {
@@ -85,6 +91,11 @@ export default {
 
 .lang-group {
   display: flex;
+}
+
+.lang-group .el-button {
+  text-transform: uppercase;
+  background: none;
 }
 
 .language-selector {

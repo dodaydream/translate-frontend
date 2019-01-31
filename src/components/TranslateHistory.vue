@@ -1,10 +1,22 @@
 <template>
   <div class="translate-history">
-    <TranslateHistoryCard
-      v-for="(item, index) in history"
-      v-bind:key="index"
-      v-on:delete-row="deleteRow(index)"
-      :content="item" />
+    <div v-if="history.length !== 0">
+      <div class="history-toolbar">
+        <div class="count">{{ $tc('translation', history.length) }}</div>
+        <el-button type="text" class="clear" @click="clearAll">Clear All</el-button>
+      </div>
+      <transition-group name="history">
+        <TranslateHistoryCard
+          v-for="(item, index) in history"
+          v-bind:key="index * 2"
+          v-on:delete-row="deleteRow(index)"
+          :content="item" />
+      </transition-group>
+    </div>
+    <div v-else class="history-empty-state">
+      <i class="el-icon-time"></i>
+      <p>{{ $t('history-empty-state') }}</p>
+    </div>
   </div>
 </template>
 
@@ -27,15 +39,33 @@ export default {
     loadLocalStorage () {
       try {
         this.history = JSON.parse(localStorage.history);
-        console.log(this.history)
       } catch (err) {
         this.history = []
-        console.log(err)
+      }
+
+      if (!Array.isArray(this.history)) {
+        this.history = []
       }
     },
     deleteRow (index) {
       this.history.splice(index, 1)
-      localStorage.history = JSON.stringify(this.history)
+      this.saveLocalStorage()
+    },
+    saveToHistory (res) {
+      if (this.history.length >= 10) {
+        this.history.pop()
+      }
+      this.history.unshift(res)
+      this.saveLocalStorage()
+    },
+    saveLocalStorage () {
+      setTimeout(() => {
+        localStorage.history = JSON.stringify(this.history)
+      }, 0)
+    },
+    clearAll () {
+      this.history = []
+      this.saveLocalStorage()
     }
   }
 }
@@ -43,7 +73,33 @@ export default {
 
 <style>
 .translate-history {
-  padding-top: 48px;
+}
+
+.history-enter-active, .history-leave-active {
+  transition: all 0.1s;
+}
+.history-enter, .history-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.history-toolbar {
+  display: flex;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-empty-state {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 48px;
+  color: #c0c4cc;
+}
+
+.history-empty-state i {
+  font-size: 96px;
 }
 
 @media screen and (min-width: 1280px) {
