@@ -17,7 +17,7 @@
     </el-row>
 
     <el-row>
-      <el-col :md="12">
+      <el-col :md="12" style="position: inherit">
         <el-input
           type="textarea"
           class="translate-input"
@@ -117,10 +117,11 @@ export default {
       } else {
         try {
           let result = JSON.parse(localStorage.history)
-          console.log("resultA: ")
+          if (result.length >= 10) {
+            result.pop()
+          }
           result.unshift(res)
           history = result
-          console.log("end adding")
         } catch (err) {
           console.log(err)
           history = [res]
