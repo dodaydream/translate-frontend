@@ -32,6 +32,7 @@ html {
 
 body, html, #app {
   height: 100%;
+  margin: 0;
 }
 
 .el-main {
@@ -48,10 +49,6 @@ body, html, #app {
 @media screen and (max-width: 640px) {
   .el-main {
     padding: 0;
-  }
-
-  body {
-    margin: 0;
   }
 }
 </style>
