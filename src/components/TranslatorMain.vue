@@ -1,18 +1,21 @@
 <template>
   <el-card class="translate-main">
     <el-row class="language-selection">
-      <el-col :span="12">
+      <el-col :span="11">
         <LanguageSelector
           v-model="from"
-          @input="getTranslation"
+          @input="getTranslation(false)"
           :detectedLang="detected"
           displayauto />
       </el-col>
-      <el-col :span="12">
+      <el-col :span="2" class="swap-wrapper">
+        <el-button type="text" @click="swapLanguage">⇌</el-button>
+      </el-col>
+      <el-col :span="11">
         <LanguageSelector
           class="dest-language-selector"
           v-model="to"
-          @input="getTranslation"
+          @input="getTranslation(false)"
          />
       </el-col>
     </el-row>
@@ -68,6 +71,11 @@ export default {
     }
   },
   methods: {
+    swapLanguage () {
+      if (this.from !== 'auto') {
+        [this.from, this.to] = [this.to, this.from]
+      }
+    },
     setPendingText () {
       if (this.result === '') {
         this.result = 'Translating'
@@ -87,7 +95,8 @@ export default {
         this.sendWebRequest()
       }
     }, 500),
-    getTranslation (isSavable=false) {
+    getTranslation (isSavable) {
+      console.log("Pending to save: " + isSavable)
       this.setPendingText()
       if (this.input !== '') {
         this.sendWebRequest(isSavable)
@@ -122,21 +131,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
 .el-textarea__inner {
   border: 0;
   resize: none;
@@ -174,6 +168,21 @@ a {
 
 textarea {
   font-size: 1.5em !important;
+}
+
+.swap-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.swap-wrapper .el-button {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.language-selection {
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 640px) {

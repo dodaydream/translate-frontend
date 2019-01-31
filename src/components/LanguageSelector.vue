@@ -1,16 +1,21 @@
 <template>
   <div class="language-selector">
     <div class="lang-wrapper">
-      <el-button-group class="lang-group">
-        <el-button
+      <el-menu
+        :default-active="value"
+        class="lang-group"
+        mode="horizontal"
+        @select="setLanguage"
+        ref="recentLang"
+        >
+        <el-menu-item
           v-for="lang in recentUsedLang"
           v-bind:key="lang"
-          @click="setLanguage(lang)"
-          :class="{ 'selected-language' : value === lang }">
+          :index="lang">
           {{ lang === 'auto' && detectedLang !== '' ?
             $t("lang." + detectedLang) + ' - ' + $t("detected") : $t("lang." + lang) }}
-        </el-button>
-      </el-button-group>
+        </el-menu-item>
+      </el-menu>
     </div>
     <el-dropdown
       trigger="click"
@@ -54,14 +59,21 @@ export default {
       this.recentUsedLang.unshift('auto')
     }
   },
+  watch: {
+    value: function(newVal, oldVal) { // watch it
+      this.updateRecent(newVal)
+    }
+  },
   methods: {
     setLanguage (lang) {
+      this.$emit('input', lang)
+    },
+    updateRecent (lang) {
+      this.$refs.recentLang.activeIndex = lang
       if (this.recentUsedLang.indexOf(lang) === -1) {
         this.recentUsedLang.pop()
         this.recentUsedLang.splice(this.displayauto ? 1 : 0, 0, lang)
       }
-
-      this.$emit('input', lang)
     }
   }
 }
@@ -74,6 +86,7 @@ export default {
 
 .el-dropdown-menu li {
   width: 120px;
+  display: inline-block;
 }
 
 .selected-language {
@@ -91,11 +104,12 @@ export default {
 
 .lang-group {
   display: flex;
+  background: none;
+  border-bottom: none !important;
 }
 
-.lang-group .el-button {
+.lang-group .el-menu-item {
   text-transform: uppercase;
-  background: none;
 }
 
 .language-selector {
@@ -105,12 +119,7 @@ export default {
 }
 
 @media screen and (max-width: 640px) {
-  .selected-language {
-    border-bottom: none !important;
-    border-radius: 0 !important;
-  }
-
-  .lang-group > .el-button {
+  .lang-group > .el-menu-item {
     display: none;
   }
 
@@ -120,8 +129,9 @@ export default {
     align-items: center;
   }
 
-  .lang-group > .el-button[class*="selected-language"] {
+  .lang-group > .el-menu-item[class*="is-active"] {
     display: block;
+    border-bottom: none;
   }
 }
 
