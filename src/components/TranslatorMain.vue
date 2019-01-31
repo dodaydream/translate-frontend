@@ -127,6 +127,8 @@ export default {
         }
       }
       localStorage.history = JSON.stringify(history)
+      // only use this for simplexity
+      this.$parent.$parent.$refs.history.loadLocalStorage()
     }
   }
 }

@@ -12,6 +12,7 @@
         type="danger"
         icon="el-icon-delete"
         size="medium"
+        @click="$emit('delete-row')"
         circle>
       </el-button>
     </div>
@@ -29,7 +30,7 @@ export default {
 <style>
 .card-button {
   float: right;
-  margin: 3px 0;
+  margin: 8px 0;
 }
 
 .box-card p {

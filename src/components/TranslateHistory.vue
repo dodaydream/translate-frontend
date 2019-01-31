@@ -1,7 +1,9 @@
 <template>
   <div class="translate-history">
     <TranslateHistoryCard
-      v-for="item in history"
+      v-for="(item, index) in history"
+      v-bind:key="index"
+      v-on:delete-row="deleteRow(index)"
       :content="item" />
   </div>
 </template>
@@ -18,6 +20,11 @@ export default {
   },
   mounted() {
     if (localStorage.history) {
+      this.loadLocalStorage()
+    }
+  },
+  methods: {
+    loadLocalStorage () {
       try {
         this.history = JSON.parse(localStorage.history);
         console.log(this.history)
@@ -25,8 +32,12 @@ export default {
         this.history = []
         console.log(err)
       }
+    },
+    deleteRow (index) {
+      this.history.splice(index, 1)
+      localStorage.history = JSON.stringify(this.history)
     }
-  },
+  }
 }
 </script>
 

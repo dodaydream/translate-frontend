@@ -2,7 +2,7 @@
   <div id="app">
     <el-main>
       <TranslatorMain />
-      <TranslateHistory />
+      <TranslateHistory ref="history"/>
     </el-main>
     <Footer />
   </div>
