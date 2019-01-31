@@ -4,18 +4,21 @@
       <TranslatorMain />
       <TranslateHistory />
     </el-main>
+    <Footer />
   </div>
 </template>
 
 <script>
 import TranslatorMain from './components/TranslatorMain.vue'
 import TranslateHistory from './components/TranslateHistory'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
   components: {
     TranslatorMain,
-    TranslateHistory
+    TranslateHistory,
+    Footer
   }
 }
 </script>
