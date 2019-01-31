@@ -1,7 +1,21 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import Element from 'element-ui'
+import {
+  Button,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Input,
+  Switch,
+  Card,
+  Main,
+  Footer,
+  Row,
+  Col,
+  Menu,
+  MenuItem
+} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import VueI18n from 'vue-i18n'
@@ -10,7 +24,19 @@ import LangEN from './lang/en.json'
 import LangZH from './lang/zh.json'
 
 Vue.use(VueI18n)
-Vue.use(Element)
+Vue.use(Button)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
+Vue.use(Switch)
+Vue.use(Card)
+Vue.use(Main)
+Vue.use(Footer)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Menu)
+Vue.use(MenuItem)
+Vue.use(Input)
 
 Vue.config.productionTip = false
 
