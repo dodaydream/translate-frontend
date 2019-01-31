@@ -1,5 +1,5 @@
 <template>
-  <div class="translate-main">
+  <el-card class="translate-main">
     <el-row class="language-selection">
       <el-col :xs="12" :md="12">
         <LanguageSelector
@@ -21,12 +21,19 @@
         <el-input
           type="textarea"
           class="translate-input"
-          :autosize="{ minRows: 2 }"
+          :autosize="{ minRows: 4 }"
           placeholder="Please input"
           @input.native="doTranslate"
           maxlength="5000"
           v-model="input">
         </el-input>
+        <el-button
+          @click="getTranslation"
+          class="translate-button"
+          icon="el-icon-arrow-right"
+          size="small"
+          circle>
+        </el-button>
         <span class="limiter">{{ input.length }}/5000</span>
       </el-col>
 
@@ -34,13 +41,13 @@
         <el-input
           class="translate-result"
           type="textarea"
-          :autosize="{ minRows: 2 }"
+          :autosize="{ minRows: 4 }"
           placeholder="Translate"
           v-model="result">
         </el-input>
       </el-col>
     </el-row>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -76,7 +83,13 @@ export default {
         this.sendWebRequest()
       }
     }, 500),
-    sendWebRequest () {
+    getTranslation () {
+      this.setPendingText()
+      if (this.input !== '') {
+        this.sendWebRequest(true)
+      }
+    },
+    sendWebRequest (isSavable=false) {
       fetch(process.env.VUE_APP_API_URL, {
         method: 'POST',
         headers: {
@@ -91,7 +104,29 @@ export default {
         .then(res => res.json())
         .then((res) => {
           this.result = res.trans_result.reduce((str, cur) => str + cur.dst + '\n', '')
+          if (isSavable) {
+            this.saveToHistory(res)
+          }
         })
+    },
+    saveToHistory (res) {
+      console.log(res)
+      var history = []
+      if (!localStorage.history) {
+        history = [res]
+      } else {
+        try {
+          let result = JSON.parse(localStorage.history)
+          console.log("resultA: ")
+          result.unshift(res)
+          history = result
+          console.log("end adding")
+        } catch (err) {
+          console.log(err)
+          history = [res]
+        }
+      }
+      localStorage.history = JSON.stringify(history)
     }
   }
 }
@@ -130,10 +165,22 @@ a {
   overflow: hidden;
 }
 
+.translate-main .el-card__body {
+  padding: 0;
+}
+
 .limiter {
   float: right;
   padding-right: 16px;
   font-size: 0.8em;
+  color: #909399;
+  padding-bottom: 8px;
+}
+
+.translate-button {
+  position: absolute;
+  top: 8px;
+  right: 32px;
 }
 
 @media screen and (max-width: 640px) {
