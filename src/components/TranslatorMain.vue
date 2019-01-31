@@ -189,6 +189,7 @@ textarea {
   .translate-main {
     border: 0;
     margin: 0;
+    border-radius: 0;
   }
 
   .el-textarea__inner {
