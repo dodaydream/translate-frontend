@@ -46,6 +46,7 @@ export default {
   created () {
     if (this.displayauto) {
       this.recentUsedLang.unshift('auto')
+      this.languageList.unshift('auto')
     }
   },
   methods: {
@@ -77,7 +78,7 @@ export default {
     border-radius: 0 !important;
   }
 
-  .lang-group > .el-button:not(:first-child) {
+  .lang-group > .el-button {
     display: none;
   }
 
@@ -85,6 +86,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .lang-group > .el-button[class*="selected-language"] {
+    display: block;
   }
 }
 

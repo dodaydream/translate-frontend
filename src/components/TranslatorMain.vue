@@ -52,7 +52,6 @@ export default {
   components: { LanguageSelector },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       input: '',
       result: '',
       from: 'auto',
