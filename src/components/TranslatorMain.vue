@@ -96,7 +96,6 @@ export default {
       }
     }, 500),
     getTranslation (isSavable) {
-      console.log("Pending to save: " + isSavable)
       this.setPendingText()
       if (this.input !== '') {
         this.sendWebRequest(isSavable)

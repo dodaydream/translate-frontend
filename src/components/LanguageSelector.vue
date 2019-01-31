@@ -60,7 +60,7 @@ export default {
     }
   },
   watch: {
-    value: function(newVal, oldVal) { // watch it
+    value: function(newVal) { // watch it
       this.updateRecent(newVal)
     }
   },
