@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import _debounce from 'lodash.debounce'
 import LanguageSelector from '@/components/LanguageSelector'
 
 export default {
@@ -100,7 +100,7 @@ export default {
 
       this.detected = ''
     },
-    doTranslate: _.debounce(function () {
+    doTranslate: _debounce(function () {
       this.setPendingText()
       if (this.input !== '') {
         this.sendWebRequest()
