@@ -1,7 +1,6 @@
 <template>
   <el-card
     class="translate-main"
-    v-loading.fullscreen.lock="loading"
     >
     <el-row class="language-selection">
       <el-col :span="11">
@@ -86,30 +85,15 @@ export default {
       to: 'zh',
       detected: '',
       hash: '',
-      loading: false
     }
   },
   methods: {
-    getSharedTranslation (hash) {
-      if (hash) {
-        this.loading = true
-        fetch(process.env.VUE_APP_API_URL + '/s/' + hash)
-          .then(parseResponse)
-          .then(res => {
-            this.input = res.source
-            this.from = res.from
-            this.to = res.to
-            this.hash = res.hash
-            this.sendWebRequest(true)
-          }).catch(err => {
-            window.history.replaceState({}, null, '/')
-            this.loading = false
-            this.$alert(err.message, 'Error', {
-              confirmButtonText: 'OK',
-              type: 'error'
-            })
-          })
-      }
+    setTranslation (res) {
+      this.input = res.source,
+      this.from = res.from,
+      this.to = res.to,
+      this.hash = res.hash
+      this.sendWebRequest(true)
     },
     swapLanguage () {
       if (this.from !== 'auto') {
@@ -168,8 +152,6 @@ export default {
             message: this.$t(err.message),
             type: 'error'
           })
-        }).then(() => {
-          this.loading = false
         })
     },
     saveToHistory (res) {

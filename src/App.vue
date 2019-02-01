@@ -1,9 +1,16 @@
 <template>
   <div id="app">
-    <el-main>
+    <el-main
+      v-loading.fullscreen.lock="loading"
+      >
       <translator-main ref="translator"/>
       <translate-history ref="history"/>
-      <share-info />
+      <share-info
+        v-if="hash"
+        :hash="hash"
+        :createdAt="createdAt"
+        :from="from"
+        :to="to"/>
     </el-main>
     <Footer />
   </div>
@@ -11,6 +18,7 @@
 
 <script>
 import Footer from './components/Footer'
+import parseResponse from './utils/fetch'
 
 export default {
   name: 'App',
@@ -22,7 +30,11 @@ export default {
   },
   data () {
     return {
-      hash: ''
+      hash: '',
+      loading: false,
+      createdAt: '',
+      from: '',
+      to:''
     }
   },
   created () {
@@ -34,7 +46,28 @@ export default {
       let path = window.location.pathname
       let shareHash = path.match(/^\/s\/(\w+)/)
       this.hash = shareHash ? shareHash[1] : ''
-      this.$refs.translator.getSharedTranslation(this.hash)
+      this.getShare()
+    },
+    getShare () {
+      if (this.hash) {
+        this.loading = true
+        fetch(process.env.VUE_APP_API_URL + '/s/' + this.hash)
+          .then(parseResponse)
+          .then(res => {
+            this.$refs.translator.setTranslation(res)
+            this.loading = false
+            this.createdAt = res.created_at
+            this.from = res.from
+            this.to = res.to
+          }).catch(err => {
+            window.history.replaceState({}, null, '/')
+            this.loading = false
+            this.$alert(err.message, 'Error', {
+              confirmButtonText: 'OK',
+              type: 'error'
+            })
+          })
+      }
     }
   }
 }
