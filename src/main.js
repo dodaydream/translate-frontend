@@ -23,6 +23,7 @@ import VueI18n from 'vue-i18n'
 
 import LangEN from './lang/en.json'
 import LangZH from './lang/zh.json'
+import './registerServiceWorker'
 
 Vue.use(VueI18n)
 Vue.use(Button)
