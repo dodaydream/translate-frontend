@@ -14,6 +14,14 @@
         @click="$emit('delete-row')"
         circle>
       </el-button>
+      <el-button
+        class="card-button"
+        type="primary"
+        icon="el-icon-share"
+        size="medium"
+        @click="$emit('share')"
+        circle>
+      </el-button>
     </div>
   </el-card>
 </template>
@@ -29,7 +37,7 @@ export default {
 <style>
 .card-button {
   float: right;
-  margin: 8px 0;
+  margin: 8px 4px;
 }
 
 .box-card p {

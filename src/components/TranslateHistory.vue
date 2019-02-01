@@ -10,6 +10,7 @@
           v-for="(item, index) in history"
           v-bind:key="index * 2"
           v-on:delete-row="deleteRow(index)"
+          v-on:share="shareContent(index)"
           :content="item" />
       </transition-group>
     </div>
@@ -17,17 +18,41 @@
       <i class="el-icon-time"></i>
       <p>{{ $t('history-empty-state') }}</p>
     </div>
+    <el-dialog
+      title="Share to others"
+      :visible.sync="dialogFormVisible"
+      :show-close="false"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      >
+      <el-form label-width="120px" v-loading="loading">
+        <el-form-item label="Sharable Link">
+          <el-input :autofocus="true" v-model="share.shareLink"></el-input>
+        </el-form-item>
+        <el-form-item label="Token">
+          <el-input :autofocus="true" v-model="share.shareToken"></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import TranslateHistoryCard from '@/components/TranslateHistoryCard'
+import parseResponse from '@/utils/fetch'
 
 export default {
   components: { TranslateHistoryCard },
   data () {
     return {
-      history: []
+      history: [],
+      dialogFormVisible: false,
+      share: {
+        shareLink: '',
+        shareToken: ''
+      },
+      loading: false
     }
   },
   mounted() {
@@ -66,6 +91,33 @@ export default {
     clearAll () {
       this.history = []
       this.saveLocalStorage()
+    },
+    shareContent(index) {
+      this.loading = true
+      this.dialogFormVisible = true
+      fetch(process.env.VUE_APP_API_URL + '/share', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: this.history[index].from,
+          to: this.history[index].to,
+          source: this.history[index].trans_result.reduce((str, cur) => str + cur.src + '\n', '')
+        })
+      })
+        .then(parseResponse)
+        .then(res => {
+          this.share.shareLink = process.env.VUE_APP_API_URL + '/s/' + res.hash
+          this.share.shareToken = res.token
+          this.loading = false
+        }).catch(err => {
+          this.dialogFormVisible = false
+          this.$message({
+            message: this.$t(err.message),
+            type: 'error'
+          })
+        })
     }
   }
 }

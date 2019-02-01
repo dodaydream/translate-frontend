@@ -113,7 +113,7 @@ export default {
       }
     },
     sendWebRequest (isSavable) {
-      fetch(process.env.VUE_APP_API_URL, {
+      fetch(process.env.VUE_APP_API_URL + '/translate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

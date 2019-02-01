@@ -6,6 +6,7 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
+  Dialog,
   Input,
   Switch,
   Card,
@@ -15,7 +16,10 @@ import {
   Col,
   Menu,
   MenuItem,
-  Message
+  Message,
+  Form,
+  FormItem,
+  Loading
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
@@ -39,8 +43,14 @@ Vue.use(Col)
 Vue.use(Menu)
 Vue.use(MenuItem)
 Vue.use(Input)
+Vue.use(Dialog)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Loading.directive);
 
+Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message
+
 Vue.config.productionTip = false
 
 const messages = {
