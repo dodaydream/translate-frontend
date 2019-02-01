@@ -43,7 +43,7 @@
         <el-button
           v-if="input"
           type="info"
-          @click="input = ''"
+          @click="input = result = ''"
           class="clear-button"
           icon="el-icon-close"
           size="small"
@@ -62,12 +62,14 @@
         </el-input>
       </el-col>
     </el-row>
+    <span style="float: right; font-size: 0.8em; padding: 8px; font-style: italic;">Powered by Baidu Translate</span>
   </el-card>
 </template>
 
 <script>
 import _debounce from 'lodash.debounce'
 import LanguageSelector from '@/components/LanguageSelector'
+import parseResponse from '@/utils/fetch'
 
 export default {
   name: 'TranslatorMain',
@@ -97,8 +99,6 @@ export default {
       } else {
         this.result += '...'
       }
-
-      this.detected = ''
     },
     doTranslate: _debounce(function () {
       this.setPendingText()
@@ -124,8 +124,8 @@ export default {
           to: this.to
         })
       })
-        .then(res => res.json())
-        .then((res) => {
+        .then(parseResponse)
+        .then(res => {
           this.result = res.trans_result.reduce((str, cur) => str + cur.dst + '\n', '')
           if (this.from === 'auto') {
             this.detected = res.from
@@ -133,6 +133,11 @@ export default {
           if (isSavable) {
             this.$parent.$parent.$refs.history.saveToHistory(res)
           }
+        }).catch(err => {
+          this.$message({
+            message: this.$t(err.message),
+            type: 'error'
+          })
         })
     }
   }

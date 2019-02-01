@@ -34,6 +34,8 @@
   "please-input": "Please input...",
   "translation-result": "Translation",
   "translation": "1 translation | {count} translations",
+  "Failed to fetch": "Network error, please make sure you have Internet connection",
+  "Too Many Attempts.": "Please try again later",
   "clear-all": "Clear All",
   "history-empty-state": "No history available",
   "made-by-stanley-cao": "Made by Stanley Cao and",

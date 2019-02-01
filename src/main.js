@@ -14,7 +14,8 @@ import {
   Row,
   Col,
   Menu,
-  MenuItem
+  MenuItem,
+  Message
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
@@ -38,6 +39,7 @@ Vue.use(Menu)
 Vue.use(MenuItem)
 Vue.use(Input)
 
+Vue.prototype.$message = Message
 Vue.config.productionTip = false
 
 const messages = {

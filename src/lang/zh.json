@@ -34,6 +34,8 @@
   "please-input": "请输入想要翻译的内容...",
   "translation-result": "翻译结果",
   "translation": "共 {count} 条",
+  "Failed to fetch": "网络连接错误，请确保您已连接至互联网",
+  "Too Many Attempts.": "太快了，请停一停！",
   "clear-all": "清空",
   "history-empty-state": "历史记录为空",
   "made-by-stanley-cao": "由 Stanley Cao",
