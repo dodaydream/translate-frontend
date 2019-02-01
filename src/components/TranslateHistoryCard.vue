@@ -3,9 +3,10 @@
     <div>
       <p class="lang-indicator">
         {{ $t("lang." + content.from) }} → {{ $t("lang." + content.to) }}
+        <span class="hash">{{ content.hash }}</span>
       </p>
-      <p class="lang-src text-wrapper">{{ content.trans_result.reduce((str, cur) => str + cur.src + '\n', '') }}</p>
-      <p class="lang-dst text-wrapper">{{ content.trans_result.reduce((str, cur) => str + cur.dst + '\n', '') }}</p>
+      <p class="lang-src text-wrapper">{{ result.src }}</p>
+      <p class="lang-dst text-wrapper">{{ result.dst }}</p>
       <el-button
         class="card-button"
         type="danger"
@@ -27,9 +28,15 @@
 </template>
 
 <script>
+import arr2str from '@/utils/arr2str'
 export default {
   props: {
     content: Object
+  },
+  computed: {
+    result: function () {
+      return arr2str(this.content.trans_result)
+    }
   }
 }
 </script>
@@ -60,5 +67,9 @@ export default {
 
 .text-wrapper {
   white-space: pre-wrap;
+}
+
+.hash {
+  float: right;
 }
 </style>

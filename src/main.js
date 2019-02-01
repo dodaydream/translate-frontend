@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import {
+  MessageBox,
   Button,
   Dropdown,
   DropdownMenu,
@@ -50,6 +51,7 @@ Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message
+Vue.prototype.$alert = MessageBox.alert
 
 Vue.config.productionTip = false
 

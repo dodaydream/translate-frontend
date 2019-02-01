@@ -41,6 +41,7 @@
 <script>
 import TranslateHistoryCard from '@/components/TranslateHistoryCard'
 import parseResponse from '@/utils/fetch'
+import arr2str from '@/utils/arr2str'
 
 export default {
   components: { TranslateHistoryCard },
@@ -77,8 +78,9 @@ export default {
       this.saveLocalStorage()
     },
     saveToHistory (res) {
-      if (this.history.length >= 10) {
-        this.history.pop()
+      let index = this.history.findIndex(i => i.hash === res.hash)
+      if (index !== undefined) {
+        this.history.splice(index, 1)
       }
       this.history.unshift(res)
       this.saveLocalStorage()
@@ -103,12 +105,12 @@ export default {
         body: JSON.stringify({
           from: this.history[index].from,
           to: this.history[index].to,
-          source: this.history[index].trans_result.reduce((str, cur) => str + cur.src + '\n', '')
+          source: arr2str(this.history[index].trans_result).src
         })
       })
         .then(parseResponse)
         .then(res => {
-          this.share.shareLink = process.env.VUE_APP_API_URL + '/s/' + res.hash
+          this.share.shareLink = process.env.VUE_APP_URL + '/s/' + res.hash
           this.share.shareToken = res.token
           this.loading = false
         }).catch(err => {

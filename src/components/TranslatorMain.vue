@@ -1,5 +1,8 @@
 <template>
-  <el-card class="translate-main">
+  <el-card
+    class="translate-main"
+    v-loading.fullscreen.lock="loading"
+    >
     <el-row class="language-selection">
       <el-col :span="11">
         <LanguageSelector
@@ -70,6 +73,7 @@
 import _debounce from 'lodash.debounce'
 import LanguageSelector from '@/components/LanguageSelector'
 import parseResponse from '@/utils/fetch'
+import arr2str from '@/utils/arr2str'
 
 export default {
   name: 'TranslatorMain',
@@ -80,10 +84,33 @@ export default {
       result: '',
       from: 'auto',
       to: 'zh',
-      detected: ''
+      detected: '',
+      hash: '',
+      loading: false
     }
   },
   methods: {
+    getSharedTranslation (hash) {
+      if (hash) {
+        this.loading = true
+        fetch(process.env.VUE_APP_API_URL + '/s/' + hash)
+          .then(parseResponse)
+          .then(res => {
+            this.input = res.source
+            this.from = res.from
+            this.to = res.to
+            this.hash = res.hash
+            this.sendWebRequest(true)
+          }).catch(err => {
+            window.history.replaceState({}, null, '/')
+            this.loading = false
+            this.$alert(err.message, 'Error', {
+              confirmButtonText: 'OK',
+              type: 'error'
+            })
+          })
+      }
+    },
     swapLanguage () {
       if (this.from !== 'auto') {
         [this.from, this.to] = [this.to, this.from]
@@ -101,6 +128,9 @@ export default {
       }
     },
     doTranslate: _debounce(function () {
+      console.log(this.hash)
+      window.history.pushState({}, null, '/')
+
       this.setPendingText()
       if (this.input !== '') {
         this.sendWebRequest()
@@ -126,19 +156,28 @@ export default {
       })
         .then(parseResponse)
         .then(res => {
-          this.result = res.trans_result.reduce((str, cur) => str + cur.dst + '\n', '')
+          this.result = arr2str(res.trans_result).dst
           if (this.from === 'auto') {
             this.detected = res.from
           }
           if (isSavable) {
-            this.$parent.$parent.$refs.history.saveToHistory(res)
+            this.saveToHistory(res)
           }
         }).catch(err => {
           this.$message({
             message: this.$t(err.message),
             type: 'error'
           })
+        }).then(() => {
+          this.loading = false
         })
+    },
+    saveToHistory (res) {
+      if (this.hash) {
+        res.hash = this.hash
+        this.hash = ''
+      }
+      this.$parent.$parent.$refs.history.saveToHistory(res)
     }
   }
 }

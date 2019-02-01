@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-main>
-      <translator-main />
+      <translator-main ref="translator"/>
       <translate-history ref="history"/>
     </el-main>
     <Footer />
@@ -17,6 +17,23 @@ export default {
     'translator-main': () => import('./components/TranslatorMain'),
     'translate-history': () => import('./components/TranslateHistory'),
     Footer
+  },
+  data () {
+    return {
+      hash: ''
+    }
+  },
+  created () {
+    window.addEventListener('popstate', this.updateHash)
+    window.addEventListener('load', this.updateHash, false)
+  },
+  methods: {
+    updateHash () {
+      let path = window.location.pathname
+      let shareHash = path.match(/^\/s\/(\w+)/)
+      this.hash = shareHash ? shareHash[1] : ''
+      this.$refs.translator.getSharedTranslation(this.hash)
+    }
   }
 }
 </script>
