@@ -8,7 +8,7 @@
       <transition-group name="history">
         <TranslateHistoryCard
           v-for="(item, index) in history"
-          v-bind:key="index * 2"
+          v-bind:key="item.hash ? item.hash : index"
           v-on:delete-row="deleteRow(index)"
           v-on:share="shareContent(index)"
           :content="item" />
@@ -22,14 +22,13 @@
       title="Share to others"
       :visible.sync="dialogFormVisible"
       :show-close="false"
-      :close-on-click-modal="false"
       :close-on-press-escape="false"
       >
       <el-form label-width="120px" v-loading="loading">
         <el-form-item label="Sharable Link">
           <el-input :autofocus="true" v-model="share.shareLink"></el-input>
         </el-form-item>
-        <el-form-item label="Token">
+        <el-form-item label="Token" v-if="share.shareToken">
           <el-input :autofocus="true" v-model="share.shareToken"></el-input>
         </el-form-item>
         <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
@@ -97,6 +96,13 @@ export default {
     shareContent(index) {
       this.loading = true
       this.dialogFormVisible = true
+      let hash = this.history[index].hash
+      if (hash) {
+        this.share.shareLink = process.env.VUE_APP_URL + '/s/' + hash
+        this.share.shareToken = ''
+        this.loading = false
+        return
+      }
       fetch(process.env.VUE_APP_API_URL + '/share', {
         method: 'POST',
         headers: {
@@ -112,6 +118,8 @@ export default {
         .then(res => {
           this.share.shareLink = process.env.VUE_APP_URL + '/s/' + res.hash
           this.share.shareToken = res.token
+          this.history[index].hash = res.hash
+          this.saveLocalStorage()
           this.loading = false
         }).catch(err => {
           this.dialogFormVisible = false
