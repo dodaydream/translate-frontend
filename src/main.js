@@ -20,7 +20,8 @@ import {
   Message,
   Form,
   FormItem,
-  Loading
+  Loading,
+  Popover
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
@@ -47,9 +48,10 @@ Vue.use(Input)
 Vue.use(Dialog)
 Vue.use(Form)
 Vue.use(FormItem)
-Vue.use(Loading.directive);
+Vue.use(Popover)
+Vue.use(Loading.directive)
 
-Vue.prototype.$loading = Loading.service;
+Vue.prototype.$loading = Loading.service
 Vue.prototype.$message = Message
 Vue.prototype.$alert = MessageBox.alert
 

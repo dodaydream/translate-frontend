@@ -3,6 +3,7 @@
     <el-main>
       <translator-main ref="translator"/>
       <translate-history ref="history"/>
+      <share-info />
     </el-main>
     <Footer />
   </div>
@@ -16,6 +17,7 @@ export default {
   components: {
     'translator-main': () => import('./components/TranslatorMain'),
     'translate-history': () => import('./components/TranslateHistory'),
+    'share-info': () => import('./components/ShareInfo'),
     Footer
   },
   data () {

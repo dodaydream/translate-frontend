@@ -46,7 +46,7 @@
         <el-button
           v-if="input"
           type="info"
-          @click="input = result = ''"
+          @click="clearInput()"
           class="clear-button"
           icon="el-icon-close"
           size="small"
@@ -178,6 +178,10 @@ export default {
         this.hash = ''
       }
       this.$parent.$parent.$refs.history.saveToHistory(res)
+    },
+    clearInput () {
+      this.input = this.result = ''
+      window.history.replaceState({}, null, '/')
     }
   }
 }
