@@ -6,11 +6,11 @@
       <translator-main ref="translator"/>
       <translate-history ref="history"/>
       <share-info
-        v-if="hash"
-        :hash="hash"
-        :createdAt="createdAt"
-        :from="from"
-        :to="to"/>
+        v-if="share.hash"
+        :hash="share.hash"
+        :createdAt="share.createdAt"
+        :from="share.from"
+        :to="share.to"/>
     </el-main>
     <Footer />
   </div>
@@ -30,11 +30,13 @@ export default {
   },
   data () {
     return {
-      hash: '',
       loading: false,
-      createdAt: '',
-      from: '',
-      to:''
+      share: {
+        hash: '',
+        createdAt: '',
+        from: '',
+        to:''
+      }
     }
   },
   created () {
@@ -45,20 +47,24 @@ export default {
     updateHash () {
       let path = window.location.pathname
       let shareHash = path.match(/^\/s\/(\w+)/)
-      this.hash = shareHash ? shareHash[1] : ''
-      this.getShare()
+      if (shareHash) {
+        this.share.hash = shareHash[1]
+        this.getShare()
+      } else {
+        this.share = {}
+      }
     },
     getShare () {
-      if (this.hash) {
+      if (this.share.hash) {
         this.loading = true
-        fetch(process.env.VUE_APP_API_URL + '/s/' + this.hash)
+        fetch(process.env.VUE_APP_API_URL + '/s/' + this.share.hash)
           .then(parseResponse)
           .then(res => {
             this.$refs.translator.setTranslation(res)
             this.loading = false
-            this.createdAt = res.created_at
-            this.from = res.from
-            this.to = res.to
+            this.share.createdAt = res.created_at
+            this.share.from = res.from
+            this.share.to = res.to
           }).catch(err => {
             window.history.replaceState({}, null, '/')
             this.loading = false
