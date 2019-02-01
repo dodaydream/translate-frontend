@@ -64,6 +64,7 @@ export default {
       })
         .then(parseResponse)
         .then(res => {
+          this.dialogFormVisible = false
           this.$message({
             message: this.$t(res.message),
             type: 'success'
@@ -75,7 +76,6 @@ export default {
           })
         }).then(() => {
           this.loading = false
-          this.dialogFormVisible = false
         })
 
     }
