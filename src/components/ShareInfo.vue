@@ -6,11 +6,10 @@
       width="200"
       trigger="hover">
       <div>
-        <p>Created at: {{createdAt}}</p>
-
         <p class="lang-indicator">
           {{ $t("lang." + from) }} → {{ $t("lang." + to) }}
         </p>
+        <p>Created at: {{createdAt}}</p>
         <el-button type="danger" @click="dialogFormVisible = true">Delete</el-button>
       </div>
       <el-button slot="reference" class="share-info-btn" type="info" icon="el-icon-info" circle></el-button>
@@ -20,16 +19,19 @@
       :visible.sync="dialogFormVisible"
       :show-close="false"
       :close-on-press-escape="false"
+      width="80%"
       >
-      <el-form label-width="120px">
+      <el-form label-width="50px">
         <el-form-item label="Token">
           <el-input :autofocus="true" v-model="token"></el-input>
         </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
         <el-button
           type="danger"
           @click="deleteShare"
           :loading="loading">Delete</el-button>
-      </el-form>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -85,7 +87,7 @@ export default {
 
 <style>
 .share-info-btn {
-  position: absolute;
+  position: fixed;
   bottom: 16px;
   right: 16px;
   z-index: 1000;

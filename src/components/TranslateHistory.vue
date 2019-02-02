@@ -23,8 +23,9 @@
       :visible.sync="dialogFormVisible"
       :show-close="false"
       :close-on-press-escape="false"
+      width="80%"
       >
-      <el-form label-width="120px" v-loading="loading">
+      <el-form v-loading="loading">
         <el-form-item label="Sharable Link">
           <el-input :autofocus="true" v-model="share.shareLink"></el-input>
         </el-form-item>

@@ -54,6 +54,7 @@ Vue.use(Loading.directive)
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$message = Message
 Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
 
 Vue.config.productionTip = false
 
