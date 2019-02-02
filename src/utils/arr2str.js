@@ -9,8 +9,8 @@ const arr2str = (trans_result) => {
         res.dst += (item.dst + '\n')
     })
 
-    res.src.trim()
-    res.dst.trim()
+    res.src = res.src.trim()
+    res.dst = res.dst.trim()
 
     return res
 }
