@@ -89,7 +89,7 @@ export default {
     saveToHistory (res) {
       let index = this.history.findIndex(i => this.isDuplicate(i, res))
       if (index !== -1) {
-        this.history.splice(index, 1)
+        res = this.history.splice(index, 1)[0]
       }
       this.history.unshift(res)
       this.saveLocalStorage()
