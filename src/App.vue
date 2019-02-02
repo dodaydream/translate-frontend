@@ -40,7 +40,6 @@ export default {
     }
   },
   created () {
-    window.addEventListener('popstate', this.updateHash)
     window.addEventListener('load', this.updateHash, false)
   },
   methods: {
@@ -53,6 +52,11 @@ export default {
       } else {
         this.share = {}
       }
+      this.updateTitle()
+    },
+    updateTitle () {
+      document.title = (this.share.hash !== undefined) ?
+        `Shared Translation (${this.share.hash}) | Translate` : 'Translate - Sharable Translator'
     },
     getShare () {
       if (this.share.hash) {
@@ -66,7 +70,9 @@ export default {
             this.share.from = res.from
             this.share.to = res.to
           }).catch(err => {
+            this.share = {}
             window.history.replaceState({}, null, '/')
+            this.updateTitle()
             this.loading = false
             this.$alert(err.message, 'Error', {
               confirmButtonText: 'OK',
