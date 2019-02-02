@@ -89,9 +89,9 @@ export default {
   },
   methods: {
     setTranslation (res) {
-      this.input = res.source,
-      this.from = res.from,
-      this.to = res.to,
+      this.input = res.source
+      this.from = res.from
+      this.to = res.to
       this.hash = res.hash
       this.sendWebRequest(true)
     },
@@ -155,7 +155,7 @@ export default {
         })
     },
     saveToHistory (res) {
-      if (this.hash) {
+      if (this.hash !== '') {
         res.hash = this.hash
         this.hash = ''
       }

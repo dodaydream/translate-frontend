@@ -41,6 +41,7 @@
 import TranslateHistoryCard from '@/components/TranslateHistoryCard'
 import parseResponse from '@/utils/fetch'
 import arr2str from '@/utils/arr2str'
+import hash from 'object-hash'
 
 export default {
   components: { TranslateHistoryCard },
@@ -61,6 +62,15 @@ export default {
     }
   },
   methods: {
+    isDuplicate (lhs, rhs) {
+      let lHash = lhs.hash
+      let rHash = rhs.hash
+      lhs.hash = rhs.hash = ''
+      let eq = hash.MD5(lhs) === hash.MD5(rhs)
+      lhs.hash = lHash
+      rhs.hash = rHash
+      return eq
+    },
     loadLocalStorage () {
       try {
         this.history = JSON.parse(localStorage.history);
@@ -77,8 +87,8 @@ export default {
       this.saveLocalStorage()
     },
     saveToHistory (res) {
-      let index = this.history.findIndex(i => i.hash === res.hash)
-      if (index !== undefined) {
+      let index = this.history.findIndex(i => this.isDuplicate(i, res))
+      if (index !== -1) {
         this.history.splice(index, 1)
       }
       this.history.unshift(res)
