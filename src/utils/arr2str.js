@@ -1,13 +1,18 @@
 const arr2str = (trans_result) => {
-    trans_result = trans_result.reduce((result={}, cur) => {
-        result.src + cur.src + '\n';
-        result.dst + cur.dst + '\n';
+    let res = {
+        src: '',
+        dst: ''
+    }
+
+    trans_result.forEach((item) => {
+        res.src += (item.src + '\n')
+        res.dst += (item.dst + '\n')
     })
 
-    trans_result.src.trim()
-    trans_result.dst.trim()
+    res.src.trim()
+    res.dst.trim()
 
-    return trans_result
+    return res
 }
 
 export default arr2str
