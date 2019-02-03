@@ -18,7 +18,6 @@
 
 <script>
 import Footer from './components/Footer'
-import parseResponse from './utils/fetch'
 
 export default {
   name: 'App',
@@ -61,9 +60,7 @@ export default {
     getShare () {
       if (this.share.hash) {
         this.loading = true
-        fetch(process.env.VUE_APP_API_URL + '/s/' + this.share.hash)
-          .then(parseResponse)
-          .then(res => {
+        this.$api.getShare(this.share.hash).then(res => {
             this.$refs.translator.setTranslation(res)
             this.loading = false
             this.share.createdAt = res.created_at

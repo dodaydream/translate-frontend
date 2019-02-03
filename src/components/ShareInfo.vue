@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import parseResponse from '@/utils/fetch'
 export default {
   props: {
     hash: String,
@@ -55,16 +54,9 @@ export default {
   methods: {
     deleteShare () {
       this.loading = true
-      fetch(process.env.VUE_APP_API_URL + '/s/' + this.hash, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          token: this.token
-        })
+      this.$api.deleteShare(this.hash, {
+        token: this.token
       })
-        .then(parseResponse)
         .then(res => {
           this.dialogFormVisible = false
           this.$message({

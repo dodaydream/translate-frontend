@@ -25,6 +25,7 @@ import {
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
+import Api from '@/api/Api'
 import VueI18n from 'vue-i18n'
 
 import LangEN from './lang/en.json'
@@ -32,6 +33,8 @@ import LangZH from './lang/zh.json'
 import './registerServiceWorker'
 
 Vue.use(VueI18n)
+Vue.use(Api)
+
 Vue.use(Button)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)

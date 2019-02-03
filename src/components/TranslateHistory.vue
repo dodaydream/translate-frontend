@@ -40,7 +40,6 @@
 
 <script>
 import TranslateHistoryCard from '@/components/TranslateHistoryCard'
-import parseResponse from '@/utils/fetch'
 import arr2str from '@/utils/arr2str'
 import hash from 'object-hash'
 
@@ -114,18 +113,11 @@ export default {
         this.loading = false
         return
       }
-      fetch(process.env.VUE_APP_API_URL + '/share', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      this.$api.createShare('', {
           from: this.history[index].from,
           to: this.history[index].to,
           source: arr2str(this.history[index].trans_result).src
         })
-      })
-        .then(parseResponse)
         .then(res => {
           this.share.shareLink = process.env.VUE_APP_URL + '/s/' + res.hash
           this.share.shareToken = res.token

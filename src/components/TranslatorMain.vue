@@ -71,7 +71,6 @@
 <script>
 import _debounce from 'lodash.debounce'
 import LanguageSelector from '@/components/LanguageSelector'
-import parseResponse from '@/utils/fetch'
 import arr2str from '@/utils/arr2str'
 
 export default {
@@ -127,18 +126,11 @@ export default {
       }
     },
     sendWebRequest (isSavable) {
-      fetch(process.env.VUE_APP_API_URL + '/translate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      this.$api.getTranslation('', {
           q: this.input,
           from: this.from,
           to: this.to
         })
-      })
-        .then(parseResponse)
         .then(res => {
           this.result = arr2str(res.trans_result).dst
           if (this.from === 'auto') {
