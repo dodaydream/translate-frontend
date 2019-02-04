@@ -82,8 +82,7 @@ export default {
       result: '',
       from: 'auto',
       to: 'zh',
-      detected: '',
-      hash: '',
+      detected: ''
     }
   },
   methods: {
@@ -91,7 +90,6 @@ export default {
       this.input = res.source
       this.from = res.from
       this.to = res.to
-      this.hash = res.hash
       this.sendWebRequest(true)
     },
     swapLanguage () {
@@ -100,30 +98,16 @@ export default {
       }
     },
     setPendingText () {
-      if (this.result === '') {
-        this.result = 'Translating'
-      }
-
-      if (this.input === '') {
-        this.result = ''
-      } else {
-        this.result += '...'
-      }
+      this.result = this.result === '' ? 'Translating' : this.result
+      this.result = this.input === '' ? '' : this.result += '...'
     },
     doTranslate: _debounce(function () {
-      console.log(this.hash)
-      window.history.pushState({}, null, '/')
-
-      this.setPendingText()
-      if (this.input !== '') {
-        this.sendWebRequest()
-      }
+      this.$parent.$parent.toIndex()
+      this.getTranslation(false)
     }, 500),
     getTranslation (isSavable) {
       this.setPendingText()
-      if (this.input !== '') {
-        this.sendWebRequest(isSavable)
-      }
+      this.input !== '' && this.sendWebRequest(isSavable)
     },
     sendWebRequest (isSavable) {
       this.$api.getTranslation('', {
@@ -133,12 +117,8 @@ export default {
         })
         .then(res => {
           this.result = arr2str(res.trans_result).dst
-          if (this.from === 'auto') {
-            this.detected = res.from
-          }
-          if (isSavable) {
-            this.saveToHistory(res)
-          }
+          this.detected = this.from === 'auto' ? res.from : ''
+          isSavable && this.saveToHistory(res)
         }).catch(err => {
           this.$message({
             message: this.$t(err.message),
@@ -147,15 +127,11 @@ export default {
         })
     },
     saveToHistory (res) {
-      if (this.hash !== '') {
-        res.hash = this.hash
-        this.hash = ''
-      }
       this.$parent.$parent.$refs.history.saveToHistory(res)
     },
     clearInput () {
       this.input = this.result = ''
-      window.history.replaceState({}, null, '/')
+      this.$parent.$parent.toIndex()
     }
   }
 }

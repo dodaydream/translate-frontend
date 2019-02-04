@@ -51,9 +51,14 @@ export default {
       } else {
         this.share = {}
       }
-      this.updateTitle()
+      this.updateInfo()
     },
-    updateTitle () {
+    toIndex () {
+      console.log('to-index triggered')
+      this.share = {}
+      window.history.replaceState({}, null, '/')
+    },
+    updateInfo () {
       document.title = (this.share.hash !== undefined) ?
         `Shared Translation (${this.share.hash}) | Translate` : 'Translate - Sharable Translator'
     },
