@@ -62,9 +62,9 @@
           :placeholder="$t('translation-result')"
           v-model="result">
         </el-input>
+        <span class="limiter">Powered by Baidu Translate</span>
       </el-col>
     </el-row>
-    <span style="float: right; font-size: 0.8em; padding: 8px; font-style: italic;">Powered by Baidu Translate</span>
   </el-card>
 </template>
 

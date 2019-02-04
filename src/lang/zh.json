@@ -43,7 +43,7 @@
   "token": "憑據",
   "please-input": "請輸入想要翻譯的內容…",
   "translation-result": "翻譯結果",
-  "translation": "共{count}條",
+  "translation": "共 {count} 條",
   "Failed to fetch": "網絡連接錯誤，請確保您已連接至互聯網",
   "Too Many Attempts.": "太快了，請停一停！",
   "clear-all": "清空",
