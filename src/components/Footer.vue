@@ -3,7 +3,7 @@
     <p class="footer-text">
       <el-switch
         v-model="isChinese"
-        :active-text="$t('lang.zh')"
+        :active-text="$t('lang.cht')"
         :inactive-text="$t('lang.en')">
       </el-switch>
     </p>

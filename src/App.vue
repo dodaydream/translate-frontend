@@ -55,6 +55,7 @@ export default {
     },
     toIndex () {
       this.share = {}
+      this.updateInfo()
       window.history.replaceState({}, null, '/')
     },
     updateInfo () {
@@ -75,7 +76,7 @@ export default {
             this.share = {}
             window.history.replaceState({}, null, '/')
             this.updateInfo()
-            this.$alert(err.message, 'Error', {
+            this.$alert(this.$t(err.message), this.$t('error'), {
               confirmButtonText: 'OK',
               type: 'error'
             })

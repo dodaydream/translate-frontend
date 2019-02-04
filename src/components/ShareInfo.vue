@@ -9,20 +9,20 @@
         <p class="lang-indicator">
           {{ $t("lang." + from) }} → {{ $t("lang." + to) }}
         </p>
-        <p>Created at: {{createdAt}}</p>
-        <el-button type="danger" @click="dialogFormVisible = true">Delete</el-button>
+        <p>{{createdAt}}</p>
+        <el-button type="danger" @click="dialogFormVisible = true">{{ $t('delete') }}</el-button>
       </div>
       <el-button slot="reference" class="share-info-btn" type="info" icon="el-icon-info" circle></el-button>
     </el-popover>
     <el-dialog
-      title="Delete share"
+      :title="$t('delete-share')"
       :visible.sync="dialogFormVisible"
       :show-close="false"
       :close-on-press-escape="false"
       width="80%"
       >
       <el-form label-width="50px">
-        <el-form-item label="Token">
+        <el-form-item :label="$t('token')">
           <el-input :autofocus="true" v-model="token"></el-input>
         </el-form-item>
       </el-form>
@@ -30,7 +30,7 @@
         <el-button
           type="danger"
           @click="deleteShare"
-          :loading="loading">Delete</el-button>
+          :loading="loading">{{ $t('delete') }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -64,6 +64,7 @@ export default {
             type: 'success'
           })
           this.$parent.$parent.$refs.history.clearHash(this.hash)
+          this.$parent.$parent.toIndex()
         }).catch(err => {
           this.$message({
             message: this.$t(err.message),

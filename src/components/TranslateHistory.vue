@@ -19,20 +19,20 @@
       <p>{{ $t('history-empty-state') }}</p>
     </div>
     <el-dialog
-      title="Share to others"
+      :title="$t('share-to-others')"
       :visible.sync="dialogFormVisible"
       :show-close="false"
       :close-on-press-escape="false"
       width="80%"
       >
       <el-form v-loading="loading">
-        <el-form-item label="Sharable Link">
+        <el-form-item :label="$t('shareable-link')">
           <el-input :autofocus="true" v-model="share.shareLink"></el-input>
         </el-form-item>
-        <el-form-item label="Token" v-if="share.shareToken">
+        <el-form-item :label="$t('token')" v-if="share.shareToken">
           <el-input :autofocus="true" v-model="share.shareToken"></el-input>
         </el-form-item>
-        <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">{{ $t('confirm') }}</el-button>
       </el-form>
     </el-dialog>
   </div>
