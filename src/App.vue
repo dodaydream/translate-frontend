@@ -54,7 +54,6 @@ export default {
       this.updateInfo()
     },
     toIndex () {
-      console.log('to-index triggered')
       this.share = {}
       window.history.replaceState({}, null, '/')
     },
@@ -72,10 +71,10 @@ export default {
             this.share.from = res.from
             this.share.to = res.to
           }).catch(err => {
+            this.loading = false
             this.share = {}
             window.history.replaceState({}, null, '/')
-            this.updateTitle()
-            this.loading = false
+            this.updateInfo()
             this.$alert(err.message, 'Error', {
               confirmButtonText: 'OK',
               type: 'error'

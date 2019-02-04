@@ -63,6 +63,7 @@ export default {
             message: this.$t(res.message),
             type: 'success'
           })
+          this.$parent.$parent.$refs.history.clearHash(this.hash)
         }).catch(err => {
           this.$message({
             message: this.$t(err.message),
@@ -71,7 +72,6 @@ export default {
         }).then(() => {
           this.loading = false
         })
-
     }
   }
 }

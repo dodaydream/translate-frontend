@@ -17,7 +17,7 @@
       </el-button>
       <el-button
         class="card-button"
-        type="primary"
+        :type="content.hash ? 'primary' : ''"
         icon="el-icon-share"
         size="medium"
         @click="$emit('share')"

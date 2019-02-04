@@ -53,7 +53,7 @@ export default {
         shareLink: '',
         shareToken: ''
       },
-      loading: false
+      loading: false,
     }
   },
   mounted() {
@@ -61,8 +61,19 @@ export default {
       this.loadLocalStorage()
     }
   },
+  watch: {
+    history: function () {
+      this.saveLocalStorage()
+    }
+  },
   methods: {
     isDuplicate (lhs, rhs) {
+      return lhs.hash && rhs.hash ? this.findIndexByHash(lhs, rhs.hash) : this.findIndexByMD5(lhs, rhs)
+    },
+    findIndexByHash (i, hash) {
+      return i.hash === hash
+    },
+    findIndexByMD5 (lhs, rhs) {
       let lHash = lhs.hash
       let rHash = rhs.hash
       lhs.hash = rhs.hash = ''
@@ -71,12 +82,18 @@ export default {
       rhs.hash = rHash
       return eq
     },
+    // used to clear saved hash when share is deleted
+    clearHash (hash) {
+      let index = this.history.findIndex(i => this.findIndexByHash(i, hash))
+      this.history[index].hash = ''
+      // workaround
+      this.saveLocalStorage()
+    },
     loadLocalStorage () {
       this.history = JSON.parse(localStorage.history || '[]');
     },
     deleteRow (index) {
       this.history.splice(index, 1)
-      this.saveLocalStorage()
     },
     saveToHistory (res) {
       let index = this.history.findIndex(i => this.isDuplicate(i, res))
@@ -84,14 +101,12 @@ export default {
         res = this.history.splice(index, 1)[0]
       }
       this.history.unshift(res)
-      this.saveLocalStorage()
     },
     saveLocalStorage () {
       localStorage.history = JSON.stringify(this.history)
     },
     clearAll () {
       this.history = []
-      this.saveLocalStorage()
     },
     shareContent(index) {
       this.loading = true
@@ -112,6 +127,7 @@ export default {
           this.share.shareLink = process.env.VUE_APP_URL + '/s/' + res.hash
           this.share.shareToken = res.token
           this.history[index].hash = res.hash
+          // workaround
           this.saveLocalStorage()
           this.loading = false
         }).catch(err => {

@@ -74,7 +74,6 @@ import LanguageSelector from '@/components/LanguageSelector'
 import arr2str from '@/utils/arr2str'
 
 export default {
-  name: 'TranslatorMain',
   components: { LanguageSelector },
   data () {
     return {
