@@ -72,15 +72,7 @@ export default {
       return eq
     },
     loadLocalStorage () {
-      try {
-        this.history = JSON.parse(localStorage.history);
-      } catch (err) {
-        this.history = []
-      }
-
-      if (!Array.isArray(this.history)) {
-        this.history = []
-      }
+      this.history = JSON.parse(localStorage.history || '[]');
     },
     deleteRow (index) {
       this.history.splice(index, 1)
@@ -95,9 +87,7 @@ export default {
       this.saveLocalStorage()
     },
     saveLocalStorage () {
-      setTimeout(() => {
-        localStorage.history = JSON.stringify(this.history)
-      }, 0)
+      localStorage.history = JSON.stringify(this.history)
     },
     clearAll () {
       this.history = []
